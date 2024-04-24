@@ -1,72 +1,93 @@
-import { DataGrid } from '@mui/x-data-grid';
 import fake_data from '../../utils/tmp_status';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import ResponseModal from '../components/response-modal';
+import StatusModal from '../components/status-modal';
+import { Button, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from '@mui/material';
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 
 import React, { useState } from 'react';
 
 
-
-const columns = [
-    { field: 'id', headerName: 'ID', width: 150 },
-    { field: 'created_at', headerName: 'Created At', width: 150 },
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'email', headerName: 'Email', width: 150 },
-    { field: 'description', headerName: 'Description', width: 150 },
-    { field: 'status', headerName: 'Status', width: 150 },
-];
-
 const AdminPage = () => {
-    const [selectedRow, setSelectedRow] = useState(null);
-    const [openDialog, setOpenDialog] = useState(false);
+    const [showResponseModal, setShowResponseModal] = useState(false)
+    const [selectedCustomer, setSelectedCustomer] = useState("")
+    const [expandedRow, setExpandedRow] = useState(null)
+    const [showEditModal, setShowEditModal] = useState(false)
 
-    const handleRowSelection = (newSelection) => {
-        console.log(newSelection)
-        setSelectedRow(newSelection);
-    };
+    const handleAccordionChange = (rowId) => {
+        if (rowId === expandedRow) {
+            setExpandedRow(null);
+        } else {
+            setExpandedRow(rowId);
+        }
+    }
 
-    const handleOpenDialog = () => {
-        setOpenDialog(true);
-    };
+    const toggleStatusModal = (e, values) => {
+        setShowEditModal(!showEditModal)
+    }
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
+    const toggleResponseModal = (e, values) => {
+        if (!showResponseModal) {
+            //This conditional fires when the "Respond" button is clicked. Values
+            //will not be undefined and we can set the selected customer to the
+            //customer clicked.
+            setSelectedCustomer(values["name"])
+        }
+        setShowResponseModal(!showResponseModal)
+    }
+
 
     return (
         <div style={{ height: 300, width: '100%' }}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleOpenDialog}
-                disabled={!selectedRow}
-                style={{ position: 'absolute', top: 10, right: 10, zIndex: 100 }}
-            >
-                Show Details
-            </Button>
-            <DataGrid
-                rows={fake_data}
-                columns={columns}
-                checkboxSelection
-                selectionModel={selectedRow}
-                onRowSelectionModelChange={handleRowSelection}
+            {
+                fake_data.map((row) => (
+                    <Accordion
+                        key={row.id}
+                        expanded={row.id === expandedRow}
+                        onChange={() => handleAccordionChange(row.id)}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls={`panel-${row.id}-content`}
+                            id={`panel-${row.id}-header`}
+                        >
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Typography><b>Ticket Description: </b>{row.description}</Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Typography><b>Ticket Status: </b>{row.status}</Typography>
+                                </Grid>
+                            </Grid>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            {/* Render your additional row content and buttons here */}
+                            <Grid item xs={6}>
+                                <div>{`ID: ${row.id}`}</div>
+                                <div>{`Age: ${row.age}`}</div>
+                                <div>{`Email: ${row.email}`}</div>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="secondary" onClick={(e) => toggleResponseModal(e, row)}>Respond</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="secondary" onClick={(e) => toggleStatusModal(e, row)}>Change Status</Button>
+                            </Grid>
+                        </AccordionDetails>
+                    </Accordion>
+                ))
+            }
+
+            <ResponseModal
+                isOpen={showResponseModal}
+                onRequestClose={toggleResponseModal}
+                customer={selectedCustomer}
             />
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Row Details</DialogTitle>
-                <DialogContent>
-                    {selectedRow && (
-                        <div>
-                            <p>ID: {selectedRow}</p>
-                            {/* Render other details of the selected row */}
-                        </div>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+            <StatusModal
+                isOpen={showEditModal}
+                //TODO change status to edit
+                onRequestClose={toggleStatusModal}
+                customer={selectedCustomer}
+            />
+        </div >
     );
 }
 
