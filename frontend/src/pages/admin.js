@@ -3,6 +3,7 @@ import StatusModal from '../components/status-modal';
 import { Button, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 
+import { useRouter } from 'next/router'
 import React, { useState } from 'react';
 import Navbar from '../components/nav-bar';
 
@@ -35,6 +36,9 @@ export async function getStaticProps() {
 }
 
 const AdminPage = ({ tickets }) => {
+    const setTicket = (newTickets) => {
+        tickets = newTickets
+    }
     const [showResponseModal, setShowResponseModal] = useState(false)
     const [selectedCustomer, setSelectedCustomer] = useState({
         firstName: '',
@@ -63,6 +67,7 @@ const AdminPage = ({ tickets }) => {
                 id: values["id"]
             })
         }
+        // refreshData()
         setShowEditModal(!showEditModal)
     }
 

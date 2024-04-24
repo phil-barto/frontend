@@ -50,4 +50,5 @@ Frontend:
 - Using TypeScript instead of JavaScript
 - Using the `api` folder to proxy requests
 - Lack of user testing
-- There's some optimizations with how the list of tickets is re-rendered which isn't ideal. I'm just doing a blanket reload but obviously reloading the data would be more optimal.
+- Using the `api` folder as a proxy. NextJS can host their own API's, which can be used to proxy the backend server.
+- There's currently a bug when the admin updates a ticket, the page doesn't show the "new status". This is because NextJS only calls [getStaticProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props) once during the build to cache this information. I thought it was when the component was re-rendered. An optimal approach would be to use a typical `setState` callback to have more granular control of when we're setting and refreshing data. 
