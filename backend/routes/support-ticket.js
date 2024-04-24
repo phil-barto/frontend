@@ -7,10 +7,14 @@ const app = express()
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
 
 app.get("/", async (req, res) => {
+    console.log("getting tickets")
     const { data, error } = await supabase
         .from('tickets')
         .select()
-
+    if (error) {
+        console.log(error)
+    }
+    console.log(data)
     res.send(data)
 })
 
