@@ -14,7 +14,6 @@ app.get("/", async (req, res) => {
     if (error) {
         console.log(error)
     }
-    console.log(data)
     res.send(data)
 })
 
@@ -34,7 +33,6 @@ app.post("/", async (req, res) => {
         console.error(error)
         res.send(error).status(400)
     }
-    console.log("data received", data)
     res.status(200).send("Status created")
 })
 
@@ -50,7 +48,6 @@ app.put("/", async (req, res) => {
         console.error(error)
         res.send(error).status(400)
     }
-    console.log("data received", data)
     res.send("Item Updated").status(200);
 });
 

@@ -9,20 +9,36 @@ import Navbar from '../components/nav-bar';
 
 export async function getStaticProps() {
     try {
-        const result = await axios.get('http://localhost:8000/support_ticket');
-        const data = result.data;
-        console.log("data", data)
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        const response = await fetch('http://localhost:8000/support_ticket', requestOptions);
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+        const result = await response.json();
+        console.log(result);
+        // console.log("data: ", data)
         return {
             props: {
-                tickets: data
+                tickets: result,
             }
         }
     } catch (error) {
         console.log(error);
+        return {
+            props: {
+                tickets: {},
+            }
+        }
     }
 }
 
 const AdminPage = ({ tickets }) => {
+    console.log("tickets inside component:", tickets)
+    console.log(typeof tickets)
     const [showResponseModal, setShowResponseModal] = useState(false)
     const [selectedCustomer, setSelectedCustomer] = useState({
         firstName: '',
