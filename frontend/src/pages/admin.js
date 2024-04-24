@@ -1,4 +1,4 @@
-import fake_data from '../../utils/tmp_status';
+import axios from 'axios';
 import ResponseModal from '../components/response-modal';
 import StatusModal from '../components/status-modal';
 import { Button, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from '@mui/material';
@@ -7,8 +7,26 @@ import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import React, { useState } from 'react';
 import Navbar from '../components/nav-bar';
 
+export async function getStaticProps() {
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+    };
+    let returned_result = "";
 
-const AdminPage = () => {
+    axios.get('http://localhost:8000/health').then((data) => {
+        //this console.log will be in our frontend console
+        console.log(data)
+    }).catch(err => { console.log(err) })
+
+    return {
+        props: {
+            returned_result
+        }
+    }
+}
+
+const AdminPage = (tickets) => {
     const [showResponseModal, setShowResponseModal] = useState(false)
     const [selectedCustomer, setSelectedCustomer] = useState("")
     const [expandedRow, setExpandedRow] = useState(null)
@@ -44,7 +62,7 @@ const AdminPage = () => {
             </Navbar>
             <div style={{ height: 300, width: '100%' }}>
                 {
-                    fake_data.map((row) => (
+                    tickets.map((row) => (
                         <Accordion
                             key={row.id}
                             expanded={row.id === expandedRow}

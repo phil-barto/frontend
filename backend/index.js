@@ -2,11 +2,13 @@ import express from 'express'
 import health from "./routes/health.js"
 import support_ticket from "./routes/support-ticket.js"
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 const app = express()
 const port = 8000
 
 //Middleware
+app.use(cors())
 app.use(express.json())
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({
