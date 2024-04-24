@@ -4,7 +4,7 @@ import styles from "../app/page.module.css"
 import Button from '@mui/material/Button';
 import { FormControl, FormLabel } from '@mui/material';
 
-export default function TicketForm() {
+const TicketForm = () => {
 
     return (
         <FormControl className={styles.button}>
@@ -20,3 +20,5 @@ export default function TicketForm() {
         </FormControl>
     )
 }
+
+export default TicketForm

@@ -6,7 +6,7 @@ import styles from "../app/page.module.css"
 
 const Navbar = () => {
     return (
-        <AppBar position="static">
+        <AppBar position="relative">
             <Toolbar className={styles.toolbar}>
                 <Typography variant="h6" className={styles.title}>
                     My Website
