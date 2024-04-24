@@ -7,7 +7,7 @@ const app = express()
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
 
 app.get("/", async (req, res) => {
-    console.log("getting tickets")
+    console.log("Obtaining all tickets")
     const { data, error } = await supabase
         .from('tickets')
         .select()
@@ -19,6 +19,7 @@ app.get("/", async (req, res) => {
 })
 
 app.post("/", async (req, res) => {
+    console.log("Beginning post request")
     const { error } = await supabase
         .from('tickets')
         .insert({
@@ -30,12 +31,15 @@ app.post("/", async (req, res) => {
             status: req.body.status
         })
     if (error) {
+        console.error(error)
         res.send(error).status(400)
     }
+    console.log("data received", data)
     res.status(200).send("Status created")
 })
 
 app.put("/", async (req, res) => {
+    console.log("Beginning put request")
     const { error } = await supabase
         .from('tickets')
         .update({
@@ -43,9 +47,10 @@ app.put("/", async (req, res) => {
         })
         .eq('id', req.body.id)
     if (error) {
+        console.error(error)
         res.send(error).status(400)
     }
-    console.log(req.body.id);
+    console.log("data received", data)
     res.send("Item Updated").status(200);
 });
 
