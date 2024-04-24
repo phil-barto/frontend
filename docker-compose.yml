@@ -1,41 +1,26 @@
 # docker-compose.yml
 version: "3"
 services:
-  # app:
-  #   restart: on-failure
-  #   build: ./backend/
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     DATABASE_URL: postgres://user:pass@postgres:5432/db
-  #     NODE_ENV: development
-  #     PORT: 8000
-  #   ports:
-  #     - "8000:8000"
-  #   command: npm run dev
-  #   volumes:
-  #     - ./backend:/app/backend
-  #     - /backend/node_modules
-
-  postgres:
-    image: postgres:11
-    ports:
-      - "35432:5432"
+  server:
+    restart: on-failure
+    build: ./backend/
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: db
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
+      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      NODE_ENV: development
+      PORT: 8000
     ports:
-      - "8888:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: phildbarto@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: totally_a_real_password
-
-volumes:
-  local_pgdata:
-  pgadmin-data:
+      - "8000:8000"
+    command: npm run dev
+    volumes:
+      - ./backend:/app/backend
+      - /backend/node_modules
+  client:
+    build: ./frontend/
+    ports:
+      - "3000:3000"
+    ENVIRONMENT:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app # Mount the host's frontend directory to the container's /app directory
+      - /app/node_modules
+      - /app/.next

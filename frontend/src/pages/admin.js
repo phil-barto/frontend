@@ -36,8 +36,6 @@ export async function getStaticProps() {
 }
 
 const AdminPage = ({ tickets }) => {
-    console.log("tickets inside component:", tickets)
-    console.log(typeof tickets)
     const [showResponseModal, setShowResponseModal] = useState(false)
     const [selectedCustomer, setSelectedCustomer] = useState({
         firstName: '',
