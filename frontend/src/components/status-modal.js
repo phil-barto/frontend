@@ -26,7 +26,7 @@ const StatusModal = ({ isOpen, onRequestClose, customer }) => {
             redirect: "follow"
         };
 
-        fetch("http://localhost:8000/support_ticket/", requestOptions)
+        fetch("https://full-stack-rxsb.onrender.com:/support_ticket/", requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));

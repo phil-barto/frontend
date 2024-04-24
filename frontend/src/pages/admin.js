@@ -14,13 +14,12 @@ export async function getStaticProps() {
             redirect: "follow"
         };
 
-        const response = await fetch('http://localhost:8000/support_ticket', requestOptions);
+        const response = await fetch('https://full-stack-rxsb.onrender.com:/support_ticket', requestOptions);
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
         const result = await response.json();
         console.log(result);
-        // console.log("data: ", data)
         return {
             props: {
                 tickets: result,
@@ -114,8 +113,9 @@ const AdminPage = ({ tickets }) => {
                                 {/* Render your additional row content and buttons here */}
                                 <Grid item xs={6}>
                                     <div>{`ID: ${row.id}`}</div>
-                                    <div>{`Age: ${row.age}`}</div>
                                     <div>{`Email: ${row.email}`}</div>
+                                    <div>{`First Name: ${row.first_name}`}</div>
+                                    <div>{`Last Name: ${row.last_name}`}</div>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Button variant="contained" color="secondary" onClick={(e) => toggleResponseModal(e, row)}>Respond</Button>
