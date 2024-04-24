@@ -36,7 +36,7 @@ const ResponseModal = ({ isOpen, onRequestClose, customer }) => {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
             }}>
-                <h2 id="response-modal-title">Respond to {customer}</h2>
+                <h2 id="response-modal-title">Respond to {customer.firstName}</h2>
                 <form onSubmit={handleSubmit}>
                     <TextareaAutosize
                         value={response}

@@ -8,27 +8,27 @@ import React, { useState } from 'react';
 import Navbar from '../components/nav-bar';
 
 export async function getStaticProps() {
-    const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-    };
-    let returned_result = "";
-
-    axios.get('http://localhost:8000/health').then((data) => {
-        //this console.log will be in our frontend console
-        console.log(data)
-    }).catch(err => { console.log(err) })
-
-    return {
-        props: {
-            returned_result
+    try {
+        const result = await axios.get('http://localhost:8000/support_ticket');
+        const data = result.data;
+        console.log("data", data)
+        return {
+            props: {
+                tickets: data
+            }
         }
+    } catch (error) {
+        console.log(error);
     }
 }
 
-const AdminPage = (tickets) => {
+const AdminPage = ({ tickets }) => {
     const [showResponseModal, setShowResponseModal] = useState(false)
-    const [selectedCustomer, setSelectedCustomer] = useState("")
+    const [selectedCustomer, setSelectedCustomer] = useState({
+        firstName: '',
+        lastName: '',
+        id: ''
+    })
     const [expandedRow, setExpandedRow] = useState(null)
     const [showEditModal, setShowEditModal] = useState(false)
 
@@ -41,6 +41,16 @@ const AdminPage = (tickets) => {
     }
 
     const toggleStatusModal = (e, values) => {
+        if (!showEditModal) {
+            //This conditional fires when the "Respond" button is clicked. Values
+            //will not be undefined and we can set the selected customer to the
+            //customer clicked.
+            setSelectedCustomer({
+                firstName: values["first_name"],
+                lastName: values["last_name"],
+                id: values["id"]
+            })
+        }
         setShowEditModal(!showEditModal)
     }
 
@@ -49,7 +59,10 @@ const AdminPage = (tickets) => {
             //This conditional fires when the "Respond" button is clicked. Values
             //will not be undefined and we can set the selected customer to the
             //customer clicked.
-            setSelectedCustomer(values["name"])
+            setSelectedCustomer({
+                firstName: values["first_name"],
+                lastName: values["last_name"]
+            })
         }
         setShowResponseModal(!showResponseModal)
     }

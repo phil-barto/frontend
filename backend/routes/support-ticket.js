@@ -22,7 +22,8 @@ app.post("/", async (req, res) => {
     const { error } = await supabase
         .from('tickets')
         .insert({
-            name: req.body.name,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
             email: req.body.email,
             description: req.body.description,
             // TODO add status validation either here or in the frontend
@@ -34,17 +35,18 @@ app.post("/", async (req, res) => {
     res.status(200).send("Status created")
 })
 
-app.get("/:id", async (req, res) => {
-    const { id } = req.params.id
-    const { data, error } = await supabase
+app.put("/", async (req, res) => {
+    const { error } = await supabase
         .from('tickets')
-        .select()
-        .is("id", id)
-
+        .update({
+            status: req.body.status
+        })
+        .eq('id', req.body.id)
     if (error) {
         res.send(error).status(400)
     }
-    res.send(data).status(200)
-})
+    console.log(req.body.id);
+    res.send("Item Updated").status(200);
+});
 
 export default app
