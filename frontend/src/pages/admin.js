@@ -14,7 +14,7 @@ export async function getStaticProps() {
             redirect: "follow"
         };
 
-        const response = await fetch('https://full-stack-rxsb.onrender.com:/support_ticket', requestOptions);
+        const response = await fetch('https://full-stack-rxsb.onrender.com/support_ticket', requestOptions);
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }

@@ -42,7 +42,7 @@ const TicketForm = () => {
                 body: urlencoded,
                 redirect: "follow"
             };
-            const response = await fetch("https://full-stack-rxsb.onrender.com:/support_ticket", requestOptions)
+            const response = await fetch("https://full-stack-rxsb.onrender.com/support_ticket", requestOptions)
 
             if (!response.ok) {
                 throw new Error("Network response was not ok")
