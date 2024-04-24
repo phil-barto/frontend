@@ -6,6 +6,10 @@ import { FormControl, FormLabel } from '@mui/material';
 
 const TicketForm = () => {
 
+    const handleSubmit = () => {
+        console.log("Form submitted")
+    }
+
     return (
         <FormControl className={styles.button}>
             <FormLabel>Enter First Name</FormLabel>
@@ -16,7 +20,7 @@ const TicketForm = () => {
             <TextField></TextField>
             <FormLabel>Description</FormLabel>
             <TextField></TextField>
-            <Button>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
         </FormControl>
     )
 }
