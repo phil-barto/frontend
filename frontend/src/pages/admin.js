@@ -1,4 +1,3 @@
-import axios from 'axios';
 import ResponseModal from '../components/response-modal';
 import StatusModal from '../components/status-modal';
 import { Button, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from '@mui/material';

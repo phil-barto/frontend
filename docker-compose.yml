@@ -18,7 +18,7 @@ services:
     build: ./frontend/
     ports:
       - "3000:3000"
-    ENVIRONMENT:
+    environment:
       - NODE_ENV=development
     volumes:
       - ./frontend:/app # Mount the host's frontend directory to the container's /app directory

@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json (if present) to /app
 COPY package.json package-lock.json* ./
+ENV URL=https://localhost:8000
 
 # Install dependencies
 RUN npm install --production
